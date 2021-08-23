@@ -39,7 +39,7 @@ to101 <- function(x) {
 }
 
 
-Plot_all_step <- function(x, n = 6) {
+Plot_all_step <- function(x, n = 6, sep = F) {
   
   tn_L_Stride <- list()
   for(i in 1:length(x)) {
@@ -58,7 +58,11 @@ Plot_all_step <- function(x, n = 6) {
   
   # plot on same grid, each series colored differently -- 
   # good if the series have same scale
-  ggplot(df, aes(x = Time, y = value)) + geom_line(aes(colour = series))  
+if(sep == F) {
+  ggplot(df, aes(x = Time, y = value)) + geom_line(aes(colour = series))
+} else if(sep == T) {
+  ggplot(df, aes(x = Time, y = value)) + geom_line() + facet_wrap(~series)
+}
   
 }
 
@@ -124,7 +128,7 @@ get_max <-function(x){
    }
    
    
-   L_knee <- matrix(NA, nrow = 101, ncol = length(R_stride))
+   L_knee <- matrix(NA, nrow = 101, ncol = length(x))
    for(i in 1:length(x)) {
      L_knee[,i] <- tn_L_Stride[[i]][,9]
      
