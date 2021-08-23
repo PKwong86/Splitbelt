@@ -149,4 +149,17 @@ get_max <-function(x){
   return(x)
  }
 
+ get_n <-function(x, n=75){ 
+   df_n <- x[[1]][1,]
+   
+   for(i in 1:length(x)) {
+     n_point<- round(nrow(x[[i]]) * n/100)
+     n_row <- x[[i]][n_point,]
+     df_n <- rbind(df_n, n_row)
+   }
+   df_n <- df_n[-1,]
+   return(df_n)  
+   
+ }
+ 
 

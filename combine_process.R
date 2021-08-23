@@ -5,7 +5,8 @@ options(scipen = 100)
 source('function for analysis.R')
 EMG <- read_excel("Walking14_combine.xlsx",sheet = "EMG")
 Kin <- read_excel("Walking14_combine.xlsx",sheet = "Model Ouptut")
-
+Kin$R_GRF[Kin$R_GRF <0] <- NA
+Kin$L_GRF[Kin$R_GRF <0] <- NA
 standard_process <- function(x,
                              fs = 1000,
                              HP = 30,
@@ -27,4 +28,9 @@ L_stride <- Segmentation(df, "L")
 R_stride <- Segmentation(df, "R")
 
 
-Plot_all_step(L_stride, n=12)
+
+
+
+
+
+
