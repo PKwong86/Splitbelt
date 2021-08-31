@@ -6,18 +6,7 @@ source('function for analysis.R')
 EMG <- read_excel("Walking14_combine.xlsx",sheet = "EMG")
 Kin <- read_excel("Walking14_combine.xlsx",sheet = "Model Ouptut")
 Kin$R_GRF[Kin$R_GRF <0] <- NA
-Kin$L_GRF[Kin$R_GRF <0] <- NA
-standard_process <- function(x,
-                             fs = 1000,
-                             HP = 30,
-                             LP = 450) {
-  z <- x - mean(x)
-  z <- filtfilt(butter(4, c(HP, LP) / (fs / 2), "pass"), x = z)
-  z <- abs(z)
-  z <- filtfilt(butter(4, 6 / (fs / 2), "low"), x = z) 
-  z<-approx(z, n=6000)$y
-  return(z)
-}
+
 EMG[is.na(EMG)] <- 0
 EMG_env <- apply(EMG,2,standard_process) 
 

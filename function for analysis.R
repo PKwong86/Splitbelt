@@ -161,5 +161,33 @@ get_max <-function(x){
    return(df_n)  
    
  }
+ Kin$L_GRF[Kin$R_GRF <0] <- NA
+ standard_process <- function(x,
+                              fs = 2000,
+                              HP = 30,
+                              LP = 500) {
+   z <- x - mean(x)
+   z <- filtfilt(butter(4, c(HP, LP) / (fs / 2), "pass"), x = z)
+   z <- abs(z)
+   z <- filtfilt(butter(4, 6 / (fs / 2), "low"), x = z) 
+   z<-approx(z, n=6000)$y
+   return(z)
+ } 
  
-
+ 
+ Get_trajectory <- function(x) {
+   tn_Stride <- list()
+   for (i in 1:length(x)) {
+     tn_Stride[[i]] <- apply(x[[i]], 2, to101)
+   }
+   list1<-list()
+   for (j in 1:ncol(x[[1]])) {
+     mat1 <- matrix(NA, nrow = 101, ncol = length(x))
+     for (i in 1:length(x)) {
+       mat1[,i] <- tn_Stride[[i]][,j]
+       list1[[j]] <- as.data.frame(mat1)
+     }
+   }
+   return(list1)
+ }
+ 
